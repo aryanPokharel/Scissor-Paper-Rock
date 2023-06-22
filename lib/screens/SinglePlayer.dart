@@ -69,173 +69,187 @@ class _SinglePlayerState extends State<SinglePlayer> {
   Widget build(BuildContext context) {
     return (Scaffold(
       body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            height: 50,
-            width: 350,
-            color: (result == 'Won'
-                ? Colors.green
-                : ((result == 'Lost') ? Colors.red : Colors.yellow)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("Score : $playerScore")]),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 200,
-                  width: 350,
-                  color: Colors.orange,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: null,
-                        child: Image.asset(
-                          'assets/images/3.jpg',
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
-                      MaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: null,
-                        child: Image.asset(
-                          'assets/images/1.jpg',
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
-                      MaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: null,
-                        child: Image.asset(
-                          'assets/images/2.jpg',
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
+          child: SizedBox(
+        width: (MediaQuery.of(context).size.width),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              height: 50,
+              width: (MediaQuery.of(context).size.width) * 0.95,
+              color: (result == 'Won'
+                  ? Colors.green
+                  : ((result == 'Lost') ? Colors.red : Colors.yellow)),
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        const Text("Your Move"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        MaterialButton(
-                          shape: const CircleBorder(),
-                          onPressed: null,
-                          child: Image.asset(
-                            playerPiece,
-                            height: 80,
-                            width: 80,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text("VS"),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        const Text("AI's Move"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        MaterialButton(
-                          shape: const CircleBorder(),
-                          onPressed: null,
-                          child: Image.asset(
-                            aiPiece,
-                            height: 80,
-                            width: 80,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Choose Your Move"),
-                const SizedBox(
-                  height: 10,
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  height: 200,
-                  width: 350,
-                  color: Colors.blueGrey,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: moveChosen
-                            ? null
-                            : () {
-                                playerMove(1);
-                              },
-                        child: Image.asset(
-                          'assets/images/1.jpg',
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
-                      MaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: moveChosen
-                            ? null
-                            : () {
-                                playerMove(2);
-                              },
-                        child: Image.asset(
-                          'assets/images/2.jpg',
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
-                      MaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: moveChosen
-                            ? null
-                            : () {
-                                playerMove(3);
-                              },
-                        child: Image.asset(
-                          'assets/images/3.jpg',
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+                  children: [Text("Score : $playerScore")]),
             ),
-          ),
-        ],
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 200,
+                    width: (MediaQuery.of(context).size.width) * 0.95,
+                    color: Colors.orange,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                          shape: const CircleBorder(),
+                          onPressed: null,
+                          child: Image.asset(
+                            'assets/images/3.jpg',
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
+                        MaterialButton(
+                          shape: const CircleBorder(),
+                          onPressed: null,
+                          child: Image.asset(
+                            'assets/images/1.jpg',
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
+                        MaterialButton(
+                          shape: const CircleBorder(),
+                          onPressed: null,
+                          child: Image.asset(
+                            'assets/images/2.jpg',
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: (MediaQuery.of(context).size.width) * 0.95,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: (MediaQuery.of(context).size.width) * 0.42,
+                          color: Colors.blueGrey,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              MaterialButton(
+                                shape: const CircleBorder(),
+                                onPressed: null,
+                                child: Image.asset(
+                                  playerPiece,
+                                  height: 80,
+                                  width: 80,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Text("VS"),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: (MediaQuery.of(context).size.width) * 0.42,
+                          color: Colors.orange,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              MaterialButton(
+                                shape: const CircleBorder(),
+                                onPressed: null,
+                                child: Image.asset(
+                                  aiPiece,
+                                  height: 80,
+                                  width: 80,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 200,
+                    width: (MediaQuery.of(context).size.width) * 0.95,
+                    color: Colors.blueGrey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                          shape: const CircleBorder(),
+                          onPressed: moveChosen
+                              ? null
+                              : () {
+                                  playerMove(1);
+                                },
+                          child: Image.asset(
+                            'assets/images/1.jpg',
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
+                        MaterialButton(
+                          shape: const CircleBorder(),
+                          onPressed: moveChosen
+                              ? null
+                              : () {
+                                  playerMove(2);
+                                },
+                          child: Image.asset(
+                            'assets/images/2.jpg',
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
+                        MaterialButton(
+                          shape: const CircleBorder(),
+                          onPressed: moveChosen
+                              ? null
+                              : () {
+                                  playerMove(3);
+                                },
+                          child: Image.asset(
+                            'assets/images/3.jpg',
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       )),
     ));
   }
