@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:motion_toast/motion_toast.dart';
 
 class SinglePlayer extends StatefulWidget {
   const SinglePlayer({Key? key}) : super(key: key);
@@ -28,49 +27,25 @@ class _SinglePlayerState extends State<SinglePlayer> {
       aiPiece = 'assets/images/$aiMove.jpg';
       result = evaluate(playerMove, aiMove);
       AudioPlayer player = AudioPlayer();
-      player.play(AssetSource('assets/sounds/win.mp3'));
+      player.play(AssetSource('win.mp3'));
       // player.setSource(AssetSource('assets/sounds/win.mp3')).then((value) {
       //   player.play(AssetSource('assets/sounds/win.mp3'));
       // });
 
       if (result == "Won") {
-        MotionToast(
-                primaryColor: Colors.green,
-                width: 320,
-                height: 80,
-                title: const Text("Won!"),
-                description: const Text(""),
-                icon: Icons.handshake)
-            .show(context);
         playerScore++;
       } else if (result == "Lost") {
-        MotionToast(
-                primaryColor: Colors.red,
-                width: 320,
-                height: 80,
-                title: const Text("Lost!"),
-                description: const Text(""),
-                icon: Icons.error)
-            .show(context);
         playerScore--;
-      } else {
-        MotionToast(
-                primaryColor: Colors.yellow,
-                width: 320,
-                height: 80,
-                title: const Text("Draw!"),
-                description: const Text(""),
-                icon: Icons.warning)
-            .show(context);
-      }
-      moveChosen = true;
-      Future.delayed(const Duration(milliseconds: 600), () {
-        setState(() {
-          playerPiece = 'assets/images/questionMark2.png';
-          aiPiece = 'assets/images/questionMark1.png';
-          moveChosen = false;
+
+        moveChosen = true;
+        Future.delayed(const Duration(milliseconds: 3000), () {
+          setState(() {
+            playerPiece = 'assets/images/questionMark2.png';
+            aiPiece = 'assets/images/questionMark1.png';
+            moveChosen = false;
+          });
         });
-      });
+      }
     });
   }
 
@@ -95,43 +70,58 @@ class _SinglePlayerState extends State<SinglePlayer> {
     return (Scaffold(
       body: SafeArea(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          Container(
+            height: 50,
+            width: 350,
+            color: (result == 'Won'
+                ? Colors.green
+                : ((result == 'Lost') ? Colors.red : Colors.yellow)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text("Score : $playerScore")]),
+          ),
           SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: null,
-                      child: Image.asset(
-                        'assets/images/3.jpg',
-                        height: 80,
-                        width: 80,
+                Container(
+                  height: 200,
+                  width: 350,
+                  color: Colors.orange,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: null,
+                        child: Image.asset(
+                          'assets/images/3.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
-                    ),
-                    MaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: null,
-                      child: Image.asset(
-                        'assets/images/1.jpg',
-                        height: 80,
-                        width: 80,
+                      MaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: null,
+                        child: Image.asset(
+                          'assets/images/1.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
-                    ),
-                    MaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: null,
-                      child: Image.asset(
-                        'assets/images/2.jpg',
-                        height: 80,
-                        width: 80,
+                      MaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: null,
+                        child: Image.asset(
+                          'assets/images/2.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -159,7 +149,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text("VS : $result"),
+                    const Text("VS"),
                     const SizedBox(
                       width: 10,
                     ),
@@ -190,54 +180,58 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   height: 10,
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: moveChosen
-                          ? null
-                          : () {
-                              playerMove(1);
-                            },
-                      child: Image.asset(
-                        'assets/images/1.jpg',
-                        height: 80,
-                        width: 80,
+                Container(
+                  height: 200,
+                  width: 350,
+                  color: Colors.blueGrey,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: moveChosen
+                            ? null
+                            : () {
+                                playerMove(1);
+                              },
+                        child: Image.asset(
+                          'assets/images/1.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
-                    ),
-                    MaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: moveChosen
-                          ? null
-                          : () {
-                              playerMove(2);
-                            },
-                      child: Image.asset(
-                        'assets/images/2.jpg',
-                        height: 80,
-                        width: 80,
+                      MaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: moveChosen
+                            ? null
+                            : () {
+                                playerMove(2);
+                              },
+                        child: Image.asset(
+                          'assets/images/2.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
-                    ),
-                    MaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: moveChosen
-                          ? null
-                          : () {
-                              playerMove(3);
-                            },
-                      child: Image.asset(
-                        'assets/images/3.jpg',
-                        height: 80,
-                        width: 80,
+                      MaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: moveChosen
+                            ? null
+                            : () {
+                                playerMove(3);
+                              },
+                        child: Image.asset(
+                          'assets/images/3.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text("Score : $playerScore"),
               ],
             ),
           ),
