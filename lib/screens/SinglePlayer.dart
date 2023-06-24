@@ -79,8 +79,24 @@ class _SinglePlayerState extends State<SinglePlayer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text("Score : $playerScore"),
-                  Text("Streak : $streak")
+                  Text(
+                    "Score : $playerScore",
+                    style: const TextStyle(
+                      fontFamily: 'Segoe UI',
+                      fontSize: 25.0,
+                      color: Colors.brown,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Streak : $streak",
+                    style: const TextStyle(
+                      fontFamily: 'Courier New',
+                      fontSize: 25.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
                 ],
               ),
             ),
