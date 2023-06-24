@@ -38,6 +38,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
           setState(() {
             playerPiece = 'assets/images/questionMark2.png';
             aiPiece = 'assets/images/questionMark1.png';
+            result = 'Na';
             moveChosen = false;
           });
         });
@@ -75,7 +76,11 @@ class _SinglePlayerState extends State<SinglePlayer> {
               width: (MediaQuery.of(context).size.width) * 0.95,
               color: (result == 'Won'
                   ? Colors.green
-                  : ((result == 'Lost') ? Colors.red : Colors.yellow)),
+                  : ((result == 'Lost')
+                      ? Colors.red
+                      : (result == "Draw")
+                          ? Colors.yellow
+                          : Colors.grey)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
