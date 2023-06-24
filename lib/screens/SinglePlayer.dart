@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class SinglePlayer extends StatefulWidget {
@@ -16,7 +15,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   bool moveChosen = false;
   dynamic result = '';
   int playerScore = 0;
-  AudioCache audioCache = AudioCache();
+  int streak = 0;
 
   dynamic playerMove(var playerMove) {
     Random random = Random();
@@ -26,16 +25,13 @@ class _SinglePlayerState extends State<SinglePlayer> {
       playerPiece = 'assets/images/$playerMove.jpg';
       aiPiece = 'assets/images/$aiMove.jpg';
       result = evaluate(playerMove, aiMove);
-      AudioPlayer player = AudioPlayer();
-      player.play(AssetSource('win.mp3'));
-      // player.setSource(AssetSource('assets/sounds/win.mp3')).then((value) {
-      //   player.play(AssetSource('assets/sounds/win.mp3'));
-      // });
 
       if (result == "Won") {
         playerScore++;
+        streak++;
       } else if (result == "Lost") {
         playerScore--;
+        streak = 0;
 
         moveChosen = true;
         Future.delayed(const Duration(milliseconds: 3000), () {
@@ -81,8 +77,12 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   ? Colors.green
                   : ((result == 'Lost') ? Colors.red : Colors.yellow)),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text("Score : $playerScore")]),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text("Score : $playerScore"),
+                  Text("Streak : $streak")
+                ],
+              ),
             ),
             SingleChildScrollView(
               child: Column(
