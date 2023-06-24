@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scissor_paper_rock/screens/Leaderboards.dart';
 import 'package:scissor_paper_rock/screens/SinglePlayer.dart';
 
 class Home extends StatefulWidget {
@@ -62,7 +63,13 @@ class _HomeState extends State<Home> {
                   widthFactor: 0.9,
                   child: SizedBox(
                     child: ElevatedButton(
-                      onPressed: (() => {print("Multiplayer")}),
+                      onPressed: (() => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LeaderBoards()),
+                            )
+                          }),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.cyan),
                       child: const Text("Leaderboards"),
