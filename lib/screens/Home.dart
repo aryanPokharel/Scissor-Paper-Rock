@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:scissor_paper_rock/screens/Leaderboards.dart';
 import 'package:scissor_paper_rock/screens/SinglePlayer.dart';
@@ -10,6 +11,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final player = AudioPlayer();
+  @override
+  void initState() {
+    super.initState();
+
+    player.play(AssetSource('sounds/homeBg.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return (Scaffold(

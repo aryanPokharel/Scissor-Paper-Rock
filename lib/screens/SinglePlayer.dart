@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class SinglePlayer extends StatefulWidget {
@@ -10,6 +11,8 @@ class SinglePlayer extends StatefulWidget {
 }
 
 class _SinglePlayerState extends State<SinglePlayer> {
+  final player = AudioPlayer();
+
   var playerPiece = 'assets/images/questionMark2.png';
   var aiPiece = 'assets/images/questionMark1.png';
   bool moveChosen = false;
@@ -27,10 +30,21 @@ class _SinglePlayerState extends State<SinglePlayer> {
       result = evaluate(playerMove, aiMove);
 
       if (result == "Won") {
+        player.play(AssetSource('sounds/win.mp3'));
         playerScore++;
         streak++;
+        if (streak >= 2) {
+          player.play(AssetSource('sounds/applause.mp3'));
+        } else if (streak <= -2) {
+          player.play(AssetSource('sounds/laugh.mp3'));
+        }
       } else if (result == "Lost") {
         playerScore--;
+        if (streak >= 2) {
+          player.play(AssetSource('sounds/streakBreak.mp3'));
+        } else if (streak <= -2) {
+          player.play(AssetSource('sounds/lose.mp3'));
+        }
         streak = 0;
 
         moveChosen = true;
@@ -66,51 +80,57 @@ class _SinglePlayerState extends State<SinglePlayer> {
   Widget build(BuildContext context) {
     return (Scaffold(
       body: SafeArea(
-          child: SizedBox(
-        width: (MediaQuery.of(context).size.width),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              height: 50,
-              width: (MediaQuery.of(context).size.width) * 0.95,
-              color: (result == 'Won'
-                  ? Colors.green
-                  : ((result == 'Lost')
-                      ? Colors.red
-                      : (result == "Draw")
-                          ? Colors.yellow
-                          : Colors.grey)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "Score : $playerScore",
-                    style: const TextStyle(
-                      fontFamily: 'Segoe UI',
-                      fontSize: 25.0,
-                      color: Colors.brown,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "Streak : $streak",
-                    style: const TextStyle(
-                      fontFamily: 'Courier New',
-                      fontSize: 25.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
+          child: SingleChildScrollView(
+        child: SizedBox(
+          width: (MediaQuery.of(context).size.width),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            SingleChildScrollView(
-              child: Column(
+              Container(
+                height: (MediaQuery.of(context).size.height) * 0.1,
+                width: (MediaQuery.of(context).size.width) * 0.95,
+                color: (result == 'Won'
+                    ? Colors.green
+                    : ((result == 'Lost')
+                        ? Colors.red
+                        : (result == "Draw")
+                            ? Colors.yellow
+                            : Colors.grey)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "Score : $playerScore",
+                      style: const TextStyle(
+                        fontFamily: 'Segoe UI',
+                        fontSize: 25.0,
+                        color: Colors.brown,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Streak : $streak",
+                      style: const TextStyle(
+                        fontFamily: 'Courier New',
+                        fontSize: 25.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    height: 200,
+                    height: (MediaQuery.of(context).size.height) * 0.25,
                     width: (MediaQuery.of(context).size.width) * 0.95,
                     color: Colors.orange,
                     child: Row(
@@ -212,7 +232,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    height: 200,
+                    height: (MediaQuery.of(context).size.height) * 0.25,
                     width: (MediaQuery.of(context).size.width) * 0.95,
                     color: Colors.blueGrey,
                     child: Row(
@@ -263,10 +283,16 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   const SizedBox(
                     height: 10,
                   ),
+                  Container(
+                    height: (MediaQuery.of(context).size.height) * 0.2,
+                    width: (MediaQuery.of(context).size.width) * 0.95,
+                    color: Colors.green,
+                    child: const Text("Ads Display"),
+                  ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       )),
     ));
