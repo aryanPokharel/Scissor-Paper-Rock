@@ -42,7 +42,8 @@ class _HomeState extends State<Home> {
                                 )
                               }),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue),
+                              backgroundColor:
+                                  const Color.fromRGBO(168, 12, 76, 10)),
                           child: const Text("Single Player"),
                         ),
                       ),
@@ -62,10 +63,13 @@ class _HomeState extends State<Home> {
                       widthFactor: 0.9,
                       child: SizedBox(
                         child: ElevatedButton(
-                          onPressed: (() => {print("Multiplayer")}),
+                          onPressed: (() => {print("Online")}),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green),
-                          child: const Text("Online"),
+                              backgroundColor: Colors.white),
+                          child: const Text(
+                            "Online",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     ),

@@ -34,7 +34,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
         streak = 0;
 
         moveChosen = true;
-        Future.delayed(const Duration(milliseconds: 3000), () {
+        Future.delayed(const Duration(milliseconds: 2300), () {
           setState(() {
             playerPiece = 'assets/images/questionMark2.png';
             aiPiece = 'assets/images/questionMark1.png';
@@ -209,9 +209,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   const SizedBox(height: 10),
                   Container(
