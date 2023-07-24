@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:scissor_paper_rock/screens/Leaderboards.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:scissor_paper_rock/screens/SinglePlayer.dart';
 
 class Home extends StatefulWidget {
@@ -11,17 +11,58 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final player = AudioPlayer();
+// Working with ads
+  late BannerAd _bannerAd;
+  bool _isAdLoaded = false;
+
   @override
   void initState() {
     super.initState();
+    _initBannerAd();
+    // playHomeMusic();
+  }
 
-    player.play(AssetSource('sounds/homeBg.mp3'));
+  _initBannerAd() {
+    _bannerAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      // adUnitId: BannerAd.testAdUnitId,
+      listener: BannerAdListener(onAdLoaded: (ad) {
+        setState(() {
+          _isAdLoaded = true;
+        });
+      }, onAdFailedToLoad: (ad, error) {
+        print(error);
+      }),
+      request: const AdRequest(),
+    );
+
+    _bannerAd.load();
+  }
+
+  final player = AudioPlayer();
+  dynamic playHomeMusic() {
+    setState(() {
+      player.play(AssetSource('sounds/homeBg.mp3'));
+    });
+  }
+
+  dynamic pauseHomeMusic() {
+    setState(() {
+      player.pause();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
+      bottomNavigationBar: !_isAdLoaded
+          ? const Text("Ad not loaded")
+          : SizedBox(
+              height: _bannerAd.size.height.toDouble(),
+              width: _bannerAd.size.width.toDouble(),
+              child: AdWidget(ad: _bannerAd),
+            ),
       body: Stack(
         children: [
           Container(
@@ -46,13 +87,14 @@ class _HomeState extends State<Home> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SinglePlayer()),
+                                    builder: (context) => const SinglePlayer(),
+                                  ),
                                 )
                               }),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(168, 12, 76, 10)),
+                            backgroundColor:
+                                const Color.fromRGBO(168, 12, 76, 10),
+                          ),
                           child: const Text("Single Player"),
                         ),
                       ),
@@ -61,7 +103,7 @@ class _HomeState extends State<Home> {
                       widthFactor: 0.9,
                       child: SizedBox(
                         child: ElevatedButton(
-                          onPressed: (() => {print("Multiplayer")}),
+                          onPressed: (() => {pauseHomeMusic()}),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.amber),
                           child: const Text("Multiplayer"),
@@ -72,13 +114,12 @@ class _HomeState extends State<Home> {
                       widthFactor: 0.9,
                       child: SizedBox(
                         child: ElevatedButton(
-                          onPressed: (() => {print("Online")}),
+                          onPressed: (() => {
+                                Navigator.pushNamed(context, "/leaderboards"),
+                              }),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white),
-                          child: const Text(
-                            "Online",
-                            style: TextStyle(color: Colors.black),
-                          ),
+                              backgroundColor: Colors.cyan),
+                          child: const Text("Leaderboards"),
                         ),
                       ),
                     ),
@@ -86,17 +127,13 @@ class _HomeState extends State<Home> {
                       widthFactor: 0.9,
                       child: SizedBox(
                         child: ElevatedButton(
-                          onPressed: (() => {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LeaderBoards()),
-                                )
-                              }),
+                          onPressed: (() => {playHomeMusic()}),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.cyan),
-                          child: const Text("Leaderboards"),
+                              backgroundColor: Colors.white),
+                          child: const Text(
+                            "Donate",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     ),

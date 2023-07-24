@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class SinglePlayer extends StatefulWidget {
   const SinglePlayer({Key? key}) : super(key: key);
@@ -11,6 +12,35 @@ class SinglePlayer extends StatefulWidget {
 }
 
 class _SinglePlayerState extends State<SinglePlayer> {
+// Working with ads
+  late BannerAd _bannerAd;
+  bool _isAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initBannerAd();
+    // playHomeMusic();
+  }
+
+  _initBannerAd() {
+    _bannerAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      // adUnitId: BannerAd.testAdUnitId,
+      listener: BannerAdListener(onAdLoaded: (ad) {
+        setState(() {
+          _isAdLoaded = true;
+        });
+      }, onAdFailedToLoad: (ad, error) {
+        print(error);
+      }),
+      request: const AdRequest(),
+    );
+
+    _bannerAd.load();
+  }
+
   final player = AudioPlayer();
 
   var playerPiece = 'assets/images/questionMark2.png';
@@ -284,10 +314,16 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     height: 10,
                   ),
                   Container(
-                    height: (MediaQuery.of(context).size.height) * 0.2,
-                    width: (MediaQuery.of(context).size.width) * 0.95,
+                    height: _bannerAd.size.height.toDouble(),
+                    width: _bannerAd.size.width.toDouble(),
                     color: Colors.green,
-                    child: const Text("Ads Display"),
+                    child: !_isAdLoaded
+                        ? const Text("Ad not loaded")
+                        : SizedBox(
+                            height: _bannerAd.size.height.toDouble(),
+                            width: _bannerAd.size.width.toDouble(),
+                            child: AdWidget(ad: _bannerAd),
+                          ),
                   ),
                 ],
               ),
